@@ -1,26 +1,33 @@
 package com.example.dogsdomundo.ui.view.home
 
-import android.text.Editable
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.dogsdomundo.data.model.Dog
 import com.example.dogsdomundo.data.repository.MainRepository
+import com.example.dogsdomundo.data.repository.dto.BreedsListApiDto
 import com.example.dogsdomundo.ui.util.Resource
 import kotlinx.coroutines.Dispatchers
 
 class HomeViewModel(private val repository: MainRepository) : ViewModel() {
 
     init {
-        getBreedsList()
+//        getBreedsList()
     }
 
-    fun getBreedsList() = liveData(Dispatchers.IO) {
-        emit(Resource.loading(data = null))
-        try {
-            emit(Resource.success(data = repository.getBreeds()))
+    fun getBreedsList() : LiveData<Resource<BreedsListApiDto>> {
+        print("init")
+        return liveData(Dispatchers.IO) {
+            print("livedata")
+            emit(Resource.loading(data = null))
+            try {print("done")
+                emit(Resource.success(data = repository.getBreeds()))
 
-        } catch (e: Exception) {
-            emit(Resource.error(data = null, message = e.message ?: "Erro desconhecido"))
+            } catch (e: Exception) {
+                print("erro")
+                emit(Resource.error(data = null, message = e.message ?: "Erro desconhecido"))
+
+            }
         }
     }
 
