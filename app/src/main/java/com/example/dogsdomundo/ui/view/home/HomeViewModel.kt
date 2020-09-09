@@ -11,16 +11,13 @@ import kotlinx.coroutines.Dispatchers
 
 class HomeViewModel(private val repository: MainRepository) : ViewModel() {
 
-    init {
-//        getBreedsList()
-    }
-
     fun getBreedsList() : LiveData<Resource<BreedsListApiDto>> {
         print("init")
         return liveData(Dispatchers.IO) {
             print("livedata")
             emit(Resource.loading(data = null))
-            try {print("done")
+            try {
+                print("done")
                 emit(Resource.success(data = repository.getBreeds()))
 
             } catch (e: Exception) {
