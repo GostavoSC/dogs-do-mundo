@@ -5,10 +5,6 @@ k
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
 u
 Eapp/src/main/java/com/example/dogsdomundo/data/api/RetrofitBuilder.kt,6\e\6e3b473b5ef4ebe1d1514ed028e4f3a1b948a9be
-m
-=app/src/main/java/com/example/dogsdomundo/ui/util/Resource.kt,4\0\404faef2c38380651b7a9577cfbe23f84246fca9
-k
-;app/src/main/java/com/example/dogsdomundo/ui/util/Status.kt,9\8\981e39fd412b2db788dd3e6de916ce7a7289701f
 Å
 Qapp/src/main/java/com/example/dogsdomundo/data/repository/dto/BreedsListApiDto.kt,f\b\fb09ac37292517e30fd96b1e69ad5567ee303cb3
 {
@@ -35,3 +31,11 @@ Happ/src/main/java/com/example/dogsdomundo/data/repository/dto/Message.kt,b\a\b
 Rapp/src/main/java/com/example/dogsdomundo/data/repository/dto/RequisitionApiDto.kt,7\b\7b6d08416a11f9c65a85d610076d3b7fcb189944
 {
 Kapp/src/androidTest/java/com/example/dogsdomundo/ExampleInstrumentedTest.kt,5\d\5d898346c02e0aa33bc785ef6ca1ad0a46e30a5d
+o
+?app/src/test/java/com/example/dogsdomundo/utils/MockitoUtils.kt,d\2\d249191ada4d827fefc63fbc3dc59a0286255749
+r
+Bapp/src/main/java/com/example/dogsdomundo/ui/util/ErrorResponse.kt,8\5\8561380c1da2f37846b3605f9697a8d501eb7e26
+r
+Bapp/src/main/java/com/example/dogsdomundo/ui/util/ResultWrapper.kt,a\8\a8db370abe7b6a1e8f28fb7ccf414b0d3822ef37
+j
+:app/src/test/java/com/example/dogsdomundo/ViewModelTest.kt,f\e\fe1d9645298f2cd399c715f4708d8ebe6deee34b

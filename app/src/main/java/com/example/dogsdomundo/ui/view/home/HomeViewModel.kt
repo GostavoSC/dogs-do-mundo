@@ -1,53 +1,64 @@
 package com.example.dogsdomundo.ui.view.home
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.example.dogsdomundo.data.model.Dog
 import com.example.dogsdomundo.data.repository.MainRepository
+import com.example.dogsdomundo.data.repository.dto.BreedImageApiDto
 import com.example.dogsdomundo.data.repository.dto.BreedsListApiDto
-import com.example.dogsdomundo.ui.util.Resource
-import kotlinx.coroutines.Dispatchers
+import com.example.dogsdomundo.ui.util.ResultWrapper
+import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: MainRepository) : ViewModel() {
 
-    fun getBreedsList() : LiveData<Resource<BreedsListApiDto>> {
-        print("init")
-        return liveData(Dispatchers.IO) {
-            print("livedata")
-            emit(Resource.loading(data = null))
-            try {
-                print("done")
-                emit(Resource.success(data = repository.getBreeds()))
-
-            } catch (e: Exception) {
-                print("erro")
-                emit(Resource.error(data = null, message = e.message ?: "Erro desconhecido"))
-
+    fun getBreedsList() {
+        viewModelScope.launch {
+            val response = repository.getBreeds()
+            when (response) {
+                is ResultWrapper.NetworkError -> emptyArray<String>()
+                is ResultWrapper.GenericError -> showError(response.error!!.error_description)
+                is ResultWrapper.Success -> showSuccess(response.value)
             }
         }
     }
 
-    fun getBreedsImage(breedName: String) = liveData(Dispatchers.IO) {
-        emit(Resource.loading(data = null))
-        try {
-            val imageDog = repository.getImageBreeds(breedName).message
-            val dog = Dog(breedName, imageDog)
-            emit(Resource.success(data = dog))
-        } catch (e: RuntimeException) {
-            emit(Resource.error(data = null, message = e.message ?: "Erro desconhecido"))
+    val responseBreedsList = MutableLiveData<BreedsListApiDto>()
+    private fun showSuccess(breeds: BreedsListApiDto) {
+        responseBreedsList.postValue(breeds)
+    }
+
+    val errorMessage = MutableLiveData<String>()
+    private fun showError(message: String) {
+        errorMessage.postValue(message)
+    }
+
+    fun getBreedsImage(breedName: String) {
+        viewModelScope.launch {
+            val response = repository.getImageBreeds(breedName)
+            when(response){
+                is ResultWrapper.NetworkError -> emptyArray<String>()
+                is ResultWrapper.GenericError -> showError(response.error!!.error_description)
+                is ResultWrapper.Success -> showSuccessImage(response.value, breedName)
+            }
         }
     }
 
-    fun getBreedsAndSubBreeds() = liveData(Dispatchers.IO) {
-        emit(Resource.loading(data = null))
-        try {
-            emit(Resource.success(data = repository.getBreedsAndSubBreeds()))
-        } catch (e: java.lang.RuntimeException) {
-            emit(Resource.error(data = null, message = e.message ?: "Erro desconhecido"))
-        }
-
+    var dogCreatedFromRequisitionOfSearchImage = MutableLiveData<Dog>()
+    private fun showSuccessImage(value: BreedImageApiDto, breedName: String) {
+        val dog = Dog(breedName, value.message)
+        dogCreatedFromRequisitionOfSearchImage.postValue(dog)
     }
 
+//    fun getBreedsAndSubBreeds() = liveData(Dispatchers.IO) {
+//        emit(Resource.loading(data = null))
+//        try {
+//            emit(Resource.success(data = repository.getBreedsAndSubBreeds()))
+//        } catch (e: java.lang.RuntimeException) {
+//            emit(Resource.error(data = null, message = e.message ?: "Erro desconhecido"))
+//        }
+//
+//    }
+//
 
 }
