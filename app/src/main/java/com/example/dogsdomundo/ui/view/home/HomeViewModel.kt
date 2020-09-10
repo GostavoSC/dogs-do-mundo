@@ -45,20 +45,11 @@ class HomeViewModel(private val repository: MainRepository) : ViewModel() {
     }
 
     var dogCreatedFromRequisitionOfSearchImage = MutableLiveData<Dog>()
+
     private fun showSuccessImage(value: BreedImageApiDto, breedName: String) {
         val dog = Dog(breedName, value.message)
         dogCreatedFromRequisitionOfSearchImage.postValue(dog)
     }
 
-//    fun getBreedsAndSubBreeds() = liveData(Dispatchers.IO) {
-//        emit(Resource.loading(data = null))
-//        try {
-//            emit(Resource.success(data = repository.getBreedsAndSubBreeds()))
-//        } catch (e: java.lang.RuntimeException) {
-//            emit(Resource.error(data = null, message = e.message ?: "Erro desconhecido"))
-//        }
-//
-//    }
-//
 
 }

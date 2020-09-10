@@ -12,19 +12,26 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
-class MainRepository(private val apiHelper: ApiHelper, val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
+class MainRepository(
+    private val apiHelper: ApiHelper,
+    val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
     suspend fun getBreeds(): ResultWrapper<BreedsListApiDto> {
-       return safeApiCall(dispatcher){apiHelper.getBreeds()}
+        return safeApiCall(dispatcher) { apiHelper.getBreeds() }
     }
 
 
     suspend fun getImageBreeds(breed: String): ResultWrapper<BreedImageApiDto> {
-        return safeApiCall(dispatcher){apiHelper.getImageBreed(breed)}
+        return safeApiCall(dispatcher) { apiHelper.getImageBreed(breed) }
     }
+
     suspend fun getBreedsAndSubBreeds() = apiHelper.getBreedsAndSubBreeds()
 
-    private suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher, apiCall: suspend () -> T): ResultWrapper<T> {
+    suspend fun <T> safeApiCall(
+        dispatcher: CoroutineDispatcher,
+        apiCall: suspend () -> T
+    ): ResultWrapper<T> {
         return withContext(dispatcher) {
             try {
                 ResultWrapper.Success(apiCall.invoke())

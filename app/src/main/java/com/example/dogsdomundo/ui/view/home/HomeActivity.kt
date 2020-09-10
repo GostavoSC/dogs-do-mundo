@@ -53,11 +53,15 @@ class HomeActivity : AppCompatActivity() {
         if (list != null) {
             for (i in list) {
                 viewModel.getBreedsImage(i)
-                viewModel.dogCreatedFromRequisitionOfSearchImage.observe(this, {
-                    createListOfDog(it, list)
-                })
+
             }
         }
+
+        viewModel.dogCreatedFromRequisitionOfSearchImage.observe(this, {
+            if (list != null) {
+                createListOfDog(it, list)
+            }
+        })
     }
 
         private fun createListOfDog(dog: Dog, nameDogList: List<String>) {
