@@ -26,7 +26,6 @@ class MainRepository(
         return safeApiCall(dispatcher) { apiHelper.getImageBreed(breed) }
     }
 
-    suspend fun getBreedsAndSubBreeds() = apiHelper.getBreedsAndSubBreeds()
 
     suspend fun <T> safeApiCall(
         dispatcher: CoroutineDispatcher,
