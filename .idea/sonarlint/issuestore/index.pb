@@ -39,3 +39,9 @@ r
 Bapp/src/main/java/com/example/dogsdomundo/ui/util/ResultWrapper.kt,a\8\a8db370abe7b6a1e8f28fb7ccf414b0d3822ef37
 j
 :app/src/test/java/com/example/dogsdomundo/ViewModelTest.kt,f\e\fe1d9645298f2cd399c715f4708d8ebe6deee34b
+
+Oapp/src/test/java/com/example/dogsdomundo/data/repository/MainRepositoryTest.kt,6\4\6423e95764b5fdaf75f551b39674c1bcfd7c191d
+s
+Capp/src/test/java/com/example/dogsdomundo/data/api/ApiHelperTest.kt,1\0\100e99027842a293c9aca5950cd48824b39b9324
+t
+Dapp/src/test/java/com/example/dogsdomundo/utils/FakeConstructions.kt,b\b\bbf70017f4b5ef3249ad62d96a400af1fbd40aec
