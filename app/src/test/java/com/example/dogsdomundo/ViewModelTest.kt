@@ -3,14 +3,12 @@ package com.example.dogsdomundo
 import ErrorResponse
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.dogsdomundo.data.repository.MainRepository
-import com.example.dogsdomundo.data.repository.dto.BreedImageApiDto
-import com.example.dogsdomundo.data.repository.dto.BreedsListApiDto
 import com.example.dogsdomundo.ui.util.ResultWrapper
 import com.example.dogsdomundo.ui.view.home.HomeViewModel
+import com.example.dogsdomundo.utils.FakeConstructions
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.coroutines.runBlocking
@@ -26,7 +24,7 @@ class ViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     val repository: MainRepository = mockk()
-
+    val fakeConstructions = FakeConstructions()
     lateinit var viewModel: HomeViewModel
 
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
@@ -40,7 +38,7 @@ class ViewModelTest {
     @Test
     fun shouldReturnABreedsListWhatNotEmptyWhenCallMethod() = runBlocking {
         viewModel = HomeViewModel(repository)
-        coEvery { repository.getBreeds() } returns ResultWrapper.Success(fakeListOfBreeds())
+        coEvery { repository.getBreeds() } returns ResultWrapper.Success(fakeConstructions.getFakeBreedAPiDto())
 
         viewModel.getBreedsList()
         viewModel.responseBreedsList.observeForever {
@@ -66,7 +64,7 @@ class ViewModelTest {
     fun shouldReturnAImageOfBreedWhenCallMethod() = runBlocking {
         viewModel = HomeViewModel(repository)
         val fakeNameFromSearch = "FAKE NAME"
-        coEvery { repository.getImageBreeds(fakeNameFromSearch) } returns ResultWrapper.Success(fakeImageBreeds())
+        coEvery { repository.getImageBreeds(fakeNameFromSearch) } returns ResultWrapper.Success(fakeConstructions.getFakeImageBreeds())
 
         viewModel.getBreedsImage(fakeNameFromSearch)
         viewModel.dogCreatedFromRequisitionOfSearchImage.observeForever {
@@ -90,33 +88,6 @@ class ViewModelTest {
     }
 
 
-    fun fakeListOfBreeds(): BreedsListApiDto {
-        val list = ArrayList<String>()
-        list.add("a")
-        list.add("b")
-        list.add("c")
-        val breedsListApiDto = BreedsListApiDto()
-        breedsListApiDto.status = "Bla"
-        breedsListApiDto.message = list
-
-        return breedsListApiDto
-
-    }
-
-    fun fakeListOfBreedsEmpty(): BreedsListApiDto {
-        val list = ArrayList<String>()
-
-        val breedsListApiDto = BreedsListApiDto()
-        breedsListApiDto.message = list
-
-        return breedsListApiDto
-
-    }
-    fun fakeImageBreeds(): BreedImageApiDto{
-        val imageBreedsApiDto = BreedImageApiDto("url_image", "success")
-        return imageBreedsApiDto
-
-    }
 
 
 }
